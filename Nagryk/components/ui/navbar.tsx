@@ -6,7 +6,8 @@ import { NavArrowDownSolid, Menu, Xmark, Check } from 'iconoir-react'
 import { cn } from '@/lib/utils'
 import { useLanguage } from '@/context/LanguageContext'
 import { Language } from '@/lib/translations'
-import { ProfileModal } from './profile-modal'
+import { ProfileModal } from '@/components/ui/profile-modal'
+import NGOInterface from '@/public/helpinghand'
 
 export function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
@@ -15,9 +16,12 @@ export function Navbar() {
 
   const navLinks = [
     { key: 'hunar', href: '/skillshub.html' },
-    { key: 'helping_hand', href: '#' },
+    { key: 'helping_hand', component: <NGOInterface /> },
     { key: 'schemes', href: '/schemematchmaker.html' },
-    // { key: "login", href: "https://www.digilocker.gov.in/web/dashboard/issuers/005931"}
+    {
+      key: 'login',
+      href: 'https://www.digilocker.gov.in/web/dashboard/issuers/005931',
+    },
   ]
 
   const languages: { code: Language; label: string }[] = [
