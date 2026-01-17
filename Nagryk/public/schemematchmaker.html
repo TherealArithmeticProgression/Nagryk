@@ -1,0 +1,719 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Scheme Matchmaker | Home Navigation</title>
+    <style>
+      :root {
+        --saffron: #ff9933;
+        --white: #ffffff;
+        --green: #138808;
+        --navy: #000080;
+      }
+
+      body {
+        margin: 0;
+        font-family: 'Segoe UI', Arial, sans-serif;
+        background: linear-gradient(
+            180deg,
+            var(--saffron) 0%,
+            var(--white) 50%,
+            var(--green) 100%
+          )
+          no-repeat fixed;
+        min-height: 100vh;
+      }
+
+      /* Nav Bar with Home Button */
+      nav {
+        padding: 15px 5%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: rgba(255, 255, 255, 0.98);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+      }
+
+      .nav-left {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+      }
+
+      /* Home Button Style */
+      .home-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 35px;
+        height: 35px;
+        background: var(--navy);
+        color: white;
+        border-radius: 6px;
+        text-decoration: none;
+        transition: transform 0.2s;
+      }
+      .home-btn:hover {
+        transform: scale(1.1);
+      }
+
+      .logo {
+        font-weight: 900;
+        color: var(--navy);
+        font-size: 1.3rem;
+        letter-spacing: 0.5px;
+      }
+
+      .nav-right {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+      }
+
+      #lang-select {
+        padding: 8px 12px;
+        border-radius: 6px;
+        border: 1.5px solid var(--navy);
+        font-weight: 600;
+        cursor: pointer;
+      }
+
+      .profile-icon {
+        width: 40px;
+        height: 40px;
+        background: var(--navy);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        cursor: pointer;
+        border: 2px solid white;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+      }
+
+      /* Container & Cards */
+      .container {
+        width: 92%;
+        max-width: 1100px;
+        margin: 40px auto;
+        background: rgba(255, 255, 255, 0.96);
+        padding: 40px;
+        border-radius: 18px;
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
+      }
+
+      .scheme-card {
+        display: flex;
+        border: 1px solid #e5e5e5;
+        border-radius: 12px;
+        margin-bottom: 25px;
+        overflow: hidden;
+        background: white;
+      }
+
+      .details {
+        flex: 1.5;
+        padding: 25px;
+      }
+      .reasoning {
+        flex: 1;
+        padding: 25px;
+        background: #fffdf7;
+        border-left: 5px solid var(--saffron);
+      }
+
+      .scheme-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: 15px;
+      }
+
+      .apply-btn {
+        background: var(--navy);
+        color: white;
+        text-decoration: none;
+        padding: 8px 16px;
+        border-radius: 6px;
+        font-size: 0.85rem;
+        font-weight: 700;
+      }
+
+      .tag {
+        background: var(--green);
+        color: white;
+        padding: 4px 10px;
+        border-radius: 4px;
+        font-size: 0.75rem;
+        font-weight: bold;
+        margin-bottom: 10px;
+        display: inline-block;
+      }
+      h3 {
+        margin: 0;
+        color: #111;
+        font-size: 1.25rem;
+      }
+      .label {
+        font-weight: 800;
+        color: #b35900;
+        font-size: 0.8rem;
+        display: block;
+        margin-bottom: 8px;
+        text-transform: uppercase;
+      }
+
+      @media (max-width: 850px) {
+        .scheme-card {
+          flex-direction: column;
+        }
+        .reasoning {
+          border-left: none;
+          border-top: 5px solid var(--saffron);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <nav>
+      <div class="nav-left">
+        <a href="/" class="home-btn" title="Go to Home" id="home-redirect">
+          <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" />
+          </svg>
+        </a>
+        <div class="logo" id="l-logo">SCHEME MATCHMAKER</div>
+      </div>
+      <div class="nav-right">
+        <select id="lang-select" onchange="translatePage(this.value)">
+          <option value="en">English</option>
+          <option value="pa">ਪੰਜਾਬੀ (Punjabi)</option>
+          <option value="hi">हिन्दी (Hindi)</option>
+          <option value="te">తెలుగు (Telugu)</option>
+          <option value="bn">বাংলা (Bengali)</option>
+          <option value="mr">मराठी (Marathi)</option>
+          <option value="ta">தமிழ் (Tamil)</option>
+          <option value="gu">ગુજરાતી (Gujarati)</option>
+          <option value="kn">ಕನ್ನಡ (Kannada)</option>
+        </select>
+        <div class="profile-icon" title="View Profile">
+          <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+            <path
+              d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"
+            />
+          </svg>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container">
+      <h1
+        id="l-heading"
+        style="
+          text-align: center;
+          color: var(--navy);
+          margin-bottom: 40px;
+          font-weight: 800;
+        "
+      >
+        Recommended Schemes
+      </h1>
+      <div id="content"></div>
+    </div>
+
+    <script>
+      const data = {
+        en: {
+          logo: 'SCHEME MATCHMAKER',
+          heading: 'Personalized Matches',
+          tag: 'RECOMMENDED',
+          why: 'Scheme Highlight',
+          apply: 'KNOW MORE',
+          schemes: [
+            {
+              t: 'Atal Pension Yojana (APY)',
+              d: 'Guaranteed pension for unorganized sector workers (Age 18-40). Spouse receives same pension on death.',
+              r: 'Pension ₹1,000 - ₹5,000/mo',
+              url: 'https://npscra.nsdl.co.in/scheme-details.php',
+            },
+            {
+              t: 'PM Suraksha Bima Yojana (PMSBY)',
+              d: 'Affordable accidental death & disability insurance for just ₹20 per annum. (Age 18-70).',
+              r: '₹2 Lakh Accident Cover',
+              url: 'https://www.jansuraksha.gov.in/Forms-PMSBY.aspx',
+            },
+            {
+              t: 'PM Jeevan Jyoti Bima Yojana (PMJJBY)',
+              d: 'Pure term life insurance for death due to any reason. Premium ₹436/year. (Age 18-50).',
+              r: '₹2 Lakh Life Cover',
+              url: 'https://www.jansuraksha.gov.in/Forms-PMJJBY.aspx',
+            },
+            {
+              t: 'PM Kisan Samman Nidhi',
+              d: '100% Govt funded financial support for farmers, transferred directly to bank accounts.',
+              r: '₹6,000/Year Support',
+              url: 'https://pmkisan.gov.in/',
+            },
+            {
+              t: 'Ayushman Bharat (PM-JAY)',
+              d: 'Free health insurance coverage per family per year for secondary and tertiary care hospitalization.',
+              r: '₹5 Lakh Health Cover',
+              url: 'https://pmjay.gov.in/',
+            },
+            {
+              t: 'PM Mitra Scheme',
+              d: 'Integrated large-scale textile regions to boost the "Farm to Fiber to Factory to Fashion" vision.',
+              r: 'Textile Industry Growth',
+              url: 'https://pm-mitra.nic.in/',
+            },
+            {
+              t: 'Kisan e-Mitra',
+              d: 'Your virtual assistant for agriculture queries. Available 24/7 with multilingual support.',
+              r: 'AI Agriculture Assistant',
+              url: 'https://kisanemitra.gov.in/',
+            },
+          ],
+        },
+        hi: {
+          logo: 'योजना मैचमेकर',
+          heading: 'निजीकृत मिलान',
+          tag: 'अनुशंसित',
+          why: 'योजना की विशेषता',
+          apply: 'अधिक जानें',
+          schemes: [
+            {
+              t: 'अटल पेंशन योजना (APY)',
+              d: 'असंगठित क्षेत्र के श्रमिकों के लिए गारंटीकृत पेंशन (आयु 18-40)। मृत्यु पर जीवनसाथी को समान पेंशन मिलती है।',
+              r: 'पेंशन ₹1,000 - ₹5,000/माह',
+              url: 'https://npscra.nsdl.co.in/scheme-details.php',
+            },
+            {
+              t: 'प्रधान प्रधान मंत्री सुरक्षा बीमा योजना (PMSBY)',
+              d: 'मात्र ₹20 प्रति वर्ष में किफायती दुर्घटना मृत्यु और विकलांगता बीमा। (आयु 18-70)।',
+              r: '₹2 लाख दुर्घटना कवर',
+              url: 'https://www.jansuraksha.gov.in/Forms-PMSBY.aspx',
+            },
+            {
+              t: 'प्रधानमंत्री जीवन ज्योति बीमा योजना (PMJJBY)',
+              d: 'किसी भी कारण से मृत्यु के लिए शुद्ध सावधि जीवन बीमा। प्रीमियम ₹436/वर्ष। (आयु 18-50)।',
+              r: '₹2 लाख जीवन कवर',
+              url: 'https://www.jansuraksha.gov.in/Forms-PMJJBY.aspx',
+            },
+            {
+              t: 'प्रधानमंत्री किसान सम्मान निधि',
+              d: 'किसानों के लिए 100% सरकारी वित्त पोषित वित्तीय सहायता, सीधे बैंक खातों में हस्तांतरित।',
+              r: '₹6,000/वर्ष सहायता',
+              url: 'https://pmkisan.gov.in/',
+            },
+            {
+              t: 'आयुष्मान भारत (PM-JAY)',
+              d: 'माध्यमिक और तृतीयक देखभाल अस्पताल में भर्ती के लिए प्रति परिवार प्रति वर्ष मुफ्त स्वास्थ्य बीमा कवरेज।',
+              r: '₹5 लाख स्वास्थ्य कवर',
+              url: 'https://pmjay.gov.in/',
+            },
+            {
+              t: 'पीएम मित्र योजना',
+              d: '"फार्म टू फाइबर टू फैक्ट्री टू फैशन" विजन को बढ़ावा देने के लिए एकीकृत बड़े पैमाने पर कपड़ा क्षेत्र।',
+              r: 'कपड़ा उद्योग विकास',
+              url: 'https://pm-mitra.nic.in/',
+            },
+            {
+              t: 'किसान ई-मित्र',
+              d: 'कृषि प्रश्नों के लिए आपका आभासी सहायक। बहुभाषी समर्थन के साथ 24/7 उपलब्ध।',
+              r: 'एआई कृषि सहायक',
+              url: 'https://kisanemitra.gov.in/',
+            },
+          ],
+        },
+        gu: {
+          logo: 'યોજના મેચમેકર',
+          heading: 'વ્યક્તિગત ભલામણો',
+          tag: 'ભલામણ કરેલ',
+          why: 'યોજનાની વિશેષતા',
+          apply: 'વધુ જાણો',
+          schemes: [
+            {
+              t: 'અટલ પેન્શન યોજના',
+              d: 'અસંગઠિત ક્ષેત્રના કામદારો માટે ગેરંટીડ પેન્શન (ઉંમર 18-40). મૃત્યુ પર જીવનસાથીને સમાન પેન્શન.',
+              r: 'પેન્શન ₹1,000 - ₹5,000/માસ',
+              url: 'https://npscra.nsdl.co.in/scheme-details.php',
+            },
+            {
+              t: 'પ્રધાનમંત્રી સુરક્ષા વીમા યોજના',
+              d: 'માત્ર ₹20/વર્ષમાં અકસ્માત મૃત્યુ અને અપંગતા વીમો. (ઉંમર 18-70).',
+              r: '₹2 લાખ અકસ્માત કવચ',
+              url: 'https://www.jansuraksha.gov.in/Forms-PMSBY.aspx',
+            },
+            {
+              t: 'પ્રધાનમંત્રી જીવન જ્યોતિ વીમા યોજના',
+              d: 'કોઈપણ કારણસર મૃત્યુ માટે જીવન વીમો. પ્રીમિયમ ₹436/વર્ષ. (ઉંમર 18-50).',
+              r: '₹2 લાખ જીવન કવચ',
+              url: 'https://www.jansuraksha.gov.in/Forms-PMJJBY.aspx',
+            },
+            {
+              t: 'પ્રધાનમંત્રી કિસાન સન્માન નિધિ',
+              d: 'ખેડૂતો માટે 100% સરકારી ભંડોળવાળી આર્થિક સહાય, સીધી બેંક ખાતામાં.',
+              r: '₹6,000/વર્ષ સહાય',
+              url: 'https://pmkisan.gov.in/',
+            },
+            {
+              t: 'આયુષ્માન ભારત (PM-JAY)',
+              d: 'ગૌણ અને તૃતિયક સારવાર માટે પ્રતિ વર્ષ કુટુંબ દીઠ મફત આરોગ્ય વીમો.',
+              r: '₹5 લાખ આરોગ્ય કવચ',
+              url: 'https://pmjay.gov.in/',
+            },
+            {
+              t: 'પીએમ મિત્ર યોજના',
+              d: 'ટેક્સટાઇલ ઉદ્યોગને પ્રોત્સાહન આપવા માટે સંકલિત વિશાળ ટેક્સટાઇલ પાર્ક.',
+              r: 'ટેક્સટાઇલ ઉદ્યોગ વિકાસ',
+              url: 'https://pm-mitra.nic.in/',
+            },
+            {
+              t: 'કિસાન ઈ-મિત્ર',
+              d: 'કૃષિ પ્રશ્નો માટે તમારો વર્ચ્યુઅલ સહાયક. બહુભાષી સપોર્ટ સાથે 24/7 ઉપલબ્ધ.',
+              r: 'AI કૃષિ સહાયક',
+              url: 'https://kisanemitra.gov.in/',
+            },
+          ],
+        },
+        mr: {
+          logo: 'योजना मॅचमेकर',
+          heading: 'शिफारस केलेल्या योजना',
+          tag: 'शिफारस केलेले',
+          why: 'योजनेचे वैशिष्ट्य',
+          apply: 'अधिक जाणून घ्या',
+          schemes: [
+            {
+              t: 'अटल पेन्शन योजना (APY)',
+              d: 'असंघटित क्षेत्रातील कामगारांसाठी हमी पेन्शन (वय 18-40). मृत्यूनंतर जोडीदारास समान पेन्शन.',
+              r: 'पेन्शन ₹1,000 - ₹5,000/महिना',
+              url: 'https://npscra.nsdl.co.in/scheme-details.php',
+            },
+            {
+              t: 'प्रधानमंत्री सुरक्षा विमा योजना',
+              d: 'वर्षाला फक्त ₹20 मध्ये परवडणारा अपघात मृत्यू आणि अपंगत्व विमा. (वय 18-70).',
+              r: '₹2 लाख अपघात विमा',
+              url: 'https://www.jansuraksha.gov.in/Forms-PMSBY.aspx',
+            },
+            {
+              t: 'प्रधानमंत्री जीवन ज्योती विमा योजना',
+              d: 'कोणत्याही कारणामुळे मृत्यू झाल्यास टर्म लाइफ इन्शुरन्स. प्रीमियम ₹436/वर्ष. (वय 18-50).',
+              r: '₹2 लाख जीवन विमा',
+              url: 'https://www.jansuraksha.gov.in/Forms-PMJJBY.aspx',
+            },
+            {
+              t: 'प्रधानमंत्री किसान सन्मान निधी',
+              d: 'शेतकऱ्यांसाठी 100% सरकारी अर्थसहाय्य, थेट बँक खात्यात जमा.',
+              r: '₹6,000/वर्ष मदत',
+              url: 'https://pmkisan.gov.in/',
+            },
+            {
+              t: 'आयुष्यमान भारत (PM-JAY)',
+              d: 'दुय्यम आणि तृतीयक उपचारांसाठी प्रति कुटुंब प्रति वर्ष मोफत आरोग्य कवच.',
+              r: '₹5 लाख आरोग्य कवच',
+              url: 'https://pmjay.gov.in/',
+            },
+            {
+              t: 'पीएम मित्र योजना',
+              d: 'वस्त्रोद्योगाला चालना देण्यासाठी एकात्मिक कापड उद्याने (Parks).',
+              r: 'वस्त्रोद्योग विकास',
+              url: 'https://pm-mitra.nic.in/',
+            },
+            {
+              t: 'किसान ई-मित्र',
+              d: 'शेतीविषयक प्रश्नांसाठी तुमचा व्हर्च्युअल सहाय्यक. बहुभाषिक समर्थनासह 24/7 उपलब्ध.',
+              r: 'AI कृषी सहाय्यक',
+              url: 'https://kisanemitra.gov.in/',
+            },
+          ],
+        },
+        bn: {
+          logo: 'স্কিম ম্যাচমেকার',
+          heading: 'প্রস্তাবিত স্কিম',
+          tag: 'প্রস্তাবিত',
+          why: 'স্কিমের বৈশিষ্ট্য',
+          apply: 'আরও জানুন',
+          schemes: [
+            {
+              t: 'অটল পেনশন যোজনা',
+              d: 'অসংগঠিত খাতের কর্মীদের জন্য নিশ্চিত পেনশন (বয়স 18-40)। মৃত্যুর পর স্বামী/স্ত্রী একই পেনশন পাবেন।',
+              r: 'পেনশন ₹1,000 - ₹5,000/মাস',
+              url: 'https://npscra.nsdl.co.in/scheme-details.php',
+            },
+            {
+              t: 'প্রধানমন্ত্রী সুরক্ষা বিমা যোজনা',
+              d: 'মাত্র ₹20/বছরে দুর্ঘটনাজনিত মৃত্যু ও অক্ষমতা বিমা। (বয়স 18-70)।',
+              r: '₹2 লক্ষ দুর্ঘটনা বিমা',
+              url: 'https://www.jansuraksha.gov.in/Forms-PMSBY.aspx',
+            },
+            {
+              t: 'প্রধানমন্ত্রী জীবন জ্যোতি বিমা যোজনা',
+              d: 'যেকোনো কারণে মৃত্যুর জন্য টার্ম লাইফ ইন্স্যুরেন্স। প্রিমিয়াম ₹436/বছর। (বয়স 18-50)।',
+              r: '₹2 লক্ষ জীবন বিমা',
+              url: 'https://www.jansuraksha.gov.in/Forms-PMJJBY.aspx',
+            },
+            {
+              t: 'প্রধানমন্ত্রী কিষাণ সম্মান নিধি',
+              d: 'কৃষকদের জন্য 100% সরকারি আর্থিক সহায়তা, সরাসরি ব্যাঙ্ক অ্যাকাউন্টে।',
+              r: '₹6,000/বছর সহায়তা',
+              url: 'https://pmkisan.gov.in/',
+            },
+            {
+              t: 'আয়ুষ্মান ভারত (PM-JAY)',
+              d: 'মাধ্যমিক ও তৃতীয় পর্যায়ের চিকিৎসার জন্য প্রতি পরিবারকে বছরে বিনামূল্যে স্বাস্থ্য কভারেজ।',
+              r: '₹5 লক্ষ স্বাস্থ্য কভার',
+              url: 'https://pmjay.gov.in/',
+            },
+            {
+              t: 'পিএম মিত্র স্কিম',
+              d: 'বস্ত্র শিল্পের বিকাশের জন্য সমন্বিত টেক্সটাইল পার্ক।',
+              r: 'বস্ত্র শিল্প উন্নয়ন',
+              url: 'https://pm-mitra.nic.in/',
+            },
+            {
+              t: 'কিষাণ ই-মিত্র',
+              d: 'কৃষি প্রশ্নের জন্য আপনার ভার্চুয়াল সহকারী। বহুভাষিক সহায়তা সহ 24/7 উপলব্ধ।',
+              r: 'AI কৃষি সহায়ক',
+              url: 'https://kisanemitra.gov.in/',
+            },
+          ],
+        },
+        ta: {
+          logo: 'ஸ்கீம் மேட்ச்மேக்கர்',
+          heading: 'பரிந்துரைக்கப்பட்ட திட்டங்கள்',
+          tag: 'பரிந்துரைக்கப்பட்டது',
+          why: 'திட்டத்தின் சிறப்பம்சம்',
+          apply: 'மேலும் அறிக',
+          schemes: [
+            {
+              t: 'அடல் பென்ஷன் யோஜனா',
+              d: 'அமைப்புசாரா தொழிலாளர்களுக்கு உத்தரவாதமான ஓய்வூதியம் (வயது 18-40).',
+              r: 'ஓய்வூதியம் ₹1,000 - ₹5,000/மாதம்',
+              url: 'https://npscra.nsdl.co.in/scheme-details.php',
+            },
+            {
+              t: 'பிரதம மந்திரி சுரக்ஷா பீமா யோஜனா',
+              d: 'ஆண்டுக்கு ₹20 மட்டுமே பிரீமியத்தில் விபத்து இறப்பு மற்றும் ஊன முற்றோர் காப்பீடு.',
+              r: '₹2 லட்சம் விபத்து காப்பீடு',
+              url: 'https://www.jansuraksha.gov.in/Forms-PMSBY.aspx',
+            },
+            {
+              t: 'பிரதம மந்திரி ஜீவன் ஜோதி பீமா யோஜனா',
+              d: 'எந்த காரணத்திற்காகவும் இறப்பிற்கு ஆயுள் காப்பீடு. பிரீமியம் ₹436/ஆண்டு.',
+              r: '₹2 லட்சம் ஆயுள் காப்பீடு',
+              url: 'https://www.jansuraksha.gov.in/Forms-PMJJBY.aspx',
+            },
+            {
+              t: 'பிரதம மந்திரி கிசான் சம்மான் நிதி',
+              d: 'விவசாயிகளுக்கு 100% அரசு நிதியுதவி, நேரடியாக வங்கிக் கணக்குகளில்.',
+              r: '₹6,000/ஆண்டு உதவி',
+              url: 'https://pmkisan.gov.in/',
+            },
+            {
+              t: 'ஆயுஷ்மான் பாரத் (PM-JAY)',
+              d: 'குடும்பத்திற்கு ஆண்டுக்கு ₹5 லட்சம் மருத்துவ காப்பீடு.',
+              r: '₹5 லட்சம் மருத்துவ காப்பீடு',
+              url: 'https://pmjay.gov.in/',
+            },
+            {
+              t: 'பிஎம் மித்ரா திட்டம்',
+              d: 'ஜவுளித் துறையை மேம்படுத்த ஒருங்கிணைந்த ஜவுளி பூங்காக்கள்.',
+              r: 'ஜவுளித் துறை வளர்ச்சி',
+              url: 'https://pm-mitra.nic.in/',
+            },
+            {
+              t: 'கிசான் இ-மித்ரா',
+              d: 'விவசாய கேள்விகளுக்கான உங்கள் மெய்நிகர் உதவியாளர். 24/7 கிடைக்கும்.',
+              r: 'AI விவசாய உதவியாளர்',
+              url: 'https://kisanemitra.gov.in/',
+            },
+          ],
+        },
+        te: {
+          logo: 'స్కీమ్ మ్యాచ్‌మేకర్',
+          heading: 'సిఫార్సు చేయబడిన పథకాలు',
+          tag: 'సిఫార్సు చేయబడింది',
+          why: 'పథకం హైలైట్',
+          apply: 'మరింత తెలుసుకోండి',
+          schemes: [
+            {
+              t: 'అటల్ పెన్షన్ యోజన',
+              d: 'అసంఘటిత రంగ కార్మికులకు హామీతో కూడిన పెన్షన్ (వయస్సు 18-40). మరణానంతరం జీవిత భాగస్వామికి అదే పెన్షన్ లభిస్తుంది.',
+              r: 'పెన్షన్ ₹1,000 - ₹5,000/నెల',
+              url: 'https://npscra.nsdl.co.in/scheme-details.php',
+            },
+            {
+              t: 'ప్రధాన మంత్రి సురక్ష బీమా యోజన',
+              d: 'కేవలం ₹20/ఏడాదికి ప్రమాద మరణం & వైకల్య బీమా. (వయస్సు 18-70).',
+              r: '₹2 లక్షల ప్రమాద బీమా',
+              url: 'https://www.jansuraksha.gov.in/Forms-PMSBY.aspx',
+            },
+            {
+              t: 'ప్రధాన మంత్రి జీవన్ జ్యోతి బీమా యోజన',
+              d: 'ఏదైనా కారణం చేత మరణానికి జీవిత బీమా. ప్రీమియం ₹436/ఏడాది. (వయస్సు 18-50).',
+              r: '₹2 లక్షల జీవిత బీమా',
+              url: 'https://www.jansuraksha.gov.in/Forms-PMJJBY.aspx',
+            },
+            {
+              t: 'ప్రధాన మంత్రి కిసాన్ సమ్మాన్ నిధి',
+              d: 'రైతులకు 100% ప్రభుత్వ నిధులతో ఆర్థిక సహాయం, నేరుగా బ్యాంకు ఖాతాల్లోకి.',
+              r: '₹6,000/ఏడాది సాయం',
+              url: 'https://pmkisan.gov.in/',
+            },
+            {
+              t: 'ఆయుష్మాన్ భారత్ (PM-JAY)',
+              d: 'కుటుంబానికి ఏడాదికి ₹5 లక్షల ఉచిత ఆరోగ్య బీమా.',
+              r: '₹5 లక్షల ఆరోగ్య కవర్',
+              url: 'https://pmjay.gov.in/',
+            },
+            {
+              t: 'పీఎం మిత్ర పథకం',
+              d: 'వస్త్ర పరిశ్రమను పెంచడానికి సమీకృత వస్త్ర పార్కులు.',
+              r: 'వస్త్ర పరిశ్రమ వృద్ధి',
+              url: 'https://pm-mitra.nic.in/',
+            },
+            {
+              t: 'కిసాన్ ఇ-మిత్ర',
+              d: 'వ్యవసాయ ప్రశ్నలకు మీ వర్చువల్ అసిస్టెంట్. బహుభాషా మద్దతుతో 24/7 అందుబాటులో ఉంది.',
+              r: 'AI వ్యవసాయ సహాయకుడు',
+              url: 'https://kisanemitra.gov.in/',
+            },
+          ],
+        },
+        kn: {
+          logo: 'ಸ್ಕೀಮ್ ಮ್ಯಾಚ್‌ಮೇಕರ್',
+          heading: 'ಶಿಫಾರಸು ಮಾಡಿದ ಯೋಜನೆಗಳು',
+          tag: 'ಶಿಫಾರಸು ಮಾಡಲಾಗಿದೆ',
+          why: 'ಯೋಜನೆಯ ಮುಖ್ಯಾಂಶ',
+          apply: 'ಇನ್ನಷ್ಟು ತಿಳಿಯಿರಿ',
+          schemes: [
+            {
+              t: 'ಅಟಲ್ ಪಿಂಚಣಿ ಯೋಜನೆ',
+              d: 'ಅಸಂಘಟಿತ ವಲಯದ ಕಾರ್ಮಿಕರಿಗೆ ಖಾತರಿಪಡಿಸಿದ ಪಿಂಚಣಿ (ವಯಸ್ಸು 18-40). ಮರಣಾ ನಂತರ ಸಂಗಾತಿಗೂ ಅದೇ ಪಿಂಚಣಿ.',
+              r: 'ಪಿಂಚಣಿ ₹1,000 - ₹5,000/ತಿಂಗಳು',
+              url: 'https://npscra.nsdl.co.in/scheme-details.php',
+            },
+            {
+              t: 'ಪ್ರಧಾನ ಮಂತ್ರಿ ಸುರಕ್ಷಾ ವಿಮಾ ಯೋಜನೆ',
+              d: 'ವರ್ಷಕ್ಕೆ ಕೇವಲ ₹20 ಕ್ಕೆ ಅಪಘಾತ ಮತ್ತು ಅಂಗವೈಕಲ್ಯ ವಿಮೆ. (ವಯಸ್ಸು 18-70).',
+              r: '₹2 ಲಕ್ಷ ಅಪಘಾತ ವಿಮೆ',
+              url: 'https://www.jansuraksha.gov.in/Forms-PMSBY.aspx',
+            },
+            {
+              t: 'ಪ್ರಧಾನ ಮಂತ್ರಿ ಜೀವನ ಜ್ಯೋತಿ ವಿಮಾ ಯೋಜನೆ',
+              d: 'ಯಾವುದೇ ಕಾರಣದಿಂದ ಸಾವಿಗೆ ಟರ್ಮ್ ಲೈಫ್ ಇನ್ಶುರೆನ್ಸ್. ಪ್ರೀಮಿಯಂ ₹436/ವರ್ಷ. (ವಯಸ್ಸು 18-50).',
+              r: '₹2 ಲಕ್ಷ ಜೀವನ ವಿಮೆ',
+              url: 'https://www.jansuraksha.gov.in/Forms-PMJJBY.aspx',
+            },
+            {
+              t: 'ಪ್ರಧಾನ ಮಂತ್ರಿ ಕಿಸಾನ್ ಸಮ್ಮಾನ್ ನಿಧಿ',
+              d: 'ರೈತರಿಗೆ 100% ಸರ್ಕಾರಿ ಅನುದಾನಿತ ಆರ್ಥಿಕ ನೆರವು, ನೇರವಾಗಿ ಬ್ಯಾಂಕ್ ಖಾತೆಗಳಿಗೆ.',
+              r: '₹6,000/ವರ್ಷ ಸಹಾಯ',
+              url: 'https://pmkisan.gov.in/',
+            },
+            {
+              t: 'ಆಯುಷ್ಮಾನ್ ಭಾರತ್ (PM-JAY)',
+              d: 'ಕುಟುಂಬಕ್ಕೆ ವರ್ಷಕ್ಕೆ ₹5 ಲಕ್ಷ ಉಚಿತ ಆರೋಗ್ಯ ವಿಮೆ.',
+              r: '₹5 ಲಕ್ಷ ಆರೋಗ್ಯ ಕವರ್',
+              url: 'https://pmjay.gov.in/',
+            },
+            {
+              t: 'ಪಿಎಂ ಮಿತ್ರ ಯೋಜನೆ',
+              d: 'ಜವಳಿ ಉದ್ಯಮವನ್ನು ಉತ್ತೇಜಿಸಲು ಸಮಗ್ರ ಜವಳಿ ಪಾರ್ಕ್ಗಳು.',
+              r: 'ಜವಳಿ ಉದ್ಯಮ ಬೆಳವಣಿಗೆ',
+              url: 'https://pm-mitra.nic.in/',
+            },
+            {
+              t: 'ಕಿಸಾನ್ ಇ-ಮಿತ್ರ',
+              d: 'ಕೃಷಿ ಪ್ರಶ್ನೆಗಳಿಗೆ ನಿಮ್ಮ ವರ್ಚುವಲ್ ಸಹಾಯಕ. ಬಹುಭಾಷಾ ಬೆಂಬಲದೊಂದಿಗೆ 24/7 ಲಭ್ಯ.',
+              r: 'AI ಕೃಷಿ ಸಹಾಯಕ',
+              url: 'https://kisanemitra.gov.in/',
+            },
+          ],
+        },
+        pa: {
+          logo: 'ਸਕੀਮ ਮੈਚਮੇਕਰ',
+          heading: 'ਤੁਹਾਡੇ ਲਈ ਖਾਸ ਸਕੀਮਾਂ',
+          tag: 'ਉੱਚ ਯੋਗਤਾ',
+          why: 'ਮੇਲ ਕਿਉਂ ਹੋਇਆ',
+          apply: 'ਅਪਲਾਈ ਕਰੋ',
+          schemes: [
+            {
+              t: 'ਅਟਲ ਪੈਨਸ਼ਨ ਯੋਜਨਾ',
+              d: 'ਅਸੰਗਠਿਤ ਖੇਤਰ ਦੇ ਕਾਮਿਆਂ ਲਈ ਗਰੰਟੀਸ਼ੁਦਾ ਪੈਨਸ਼ਨ (ਉਮਰ 18-40).',
+              r: 'ਪੈਨਸ਼ਨ ₹1,000 - ₹5,000/ਮਹੀਨਾ',
+              url: 'https://npscra.nsdl.co.in/scheme-details.php',
+            },
+            {
+              t: 'ਪਰਧਾਨ ਮੰਤਰੀ ਸੁਰੱਖਿਆ ਬੀਮਾ ਯੋਜਨਾ',
+              d: 'ਸਿਰਫ ₹20/ਸਾਲ ਵਿੱਚ ਦੁਰਘਟਨਾ ਮੌਤ ਅਤੇ ਅਪੰਗਤਾ ਬੀਮਾ. (ਉਮਰ 18-70).',
+              r: '₹2 ਲੱਖ ਦੁਰਘਟਨਾ ਬੀਮਾ',
+              url: 'https://www.jansuraksha.gov.in/Forms-PMSBY.aspx',
+            },
+            {
+              t: 'ਪਰਧਾਨ ਮੰਤਰੀ ਜੀਵਨ ਜਯੋਤੀ ਬੀਮਾ ਯੋਜਨਾ',
+              d: 'ਕਿਸੇ ਵੀ ਕਾਰਨ ਕਰਕੇ ਮੌਤ ਲਈ ਜੀਵਨ ਬੀਮਾ. ਪ੍ਰੀਮੀਅਮ ₹436/ਸਾਲ.',
+              r: '₹2 ਲੱਖ ਜੀਵਨ ਬੀਮਾ',
+              url: 'https://www.jansuraksha.gov.in/Forms-PMJJBY.aspx',
+            },
+            {
+              t: 'ਪਰਧਾਨ ਮੰਤਰੀ ਕਿਸਾਨ ਸਨਮਾਨ ਨਿਧੀ',
+              d: 'ਕਿਸਾਨਾਂ ਲਈ 100% ਸਰਕਾਰੀ ਫੰਡ ਪ੍ਰਾਪਤ ਵਿੱਤੀ ਸਹਾਇਤਾ, ਸਿੱਧੇ ਬੈਂਕ ਖਾਤਿਆਂ ਵਿੱਚ.',
+              r: '₹6,000/ਸਾਲ ਸਹਾਇਤਾ',
+              url: 'https://pmkisan.gov.in/',
+            },
+            {
+              t: 'ਆਯੁਸ਼ਮਾਨ ਭਾਰਤ (PM-JAY)',
+              d: 'ਪ੍ਰਤੀ ਪਰਿਵਾਰ ਪ੍ਰਤੀ ਸਾਲ ₹5 ਲੱਖ ਮੁਫਤ ਸਿਹਤ ਬੀਮਾ.',
+              r: '₹5 ਲੱਖ ਸਿਹਤ ਕਵਰ',
+              url: 'https://pmjay.gov.in/',
+            },
+            {
+              t: 'ਪੀਐਮ ਮਿੱਤਰ ਸਕੀਮ',
+              d: 'ਟੈਕਸਟਾਈਲ ਉਦਯੋਗ ਨੂੰ ਹੁਲਾਰਾ ਦੇਣ ਲਈ ਏਕੀਕ੍ਰਿਤ ਟੈਕਸਟਾਈਲ ਪਾਰਕ.',
+              r: 'ਟੈਕਸਟਾਈਲ ਉਦਯੋਗ ਵਿਕਾਸ',
+              url: 'https://pm-mitra.nic.in/',
+            },
+            {
+              t: 'ਕਿਸਾਨ ਈ-ਮਿੱਤਰ',
+              d: 'ਖੇਤੀਬਾੜੀ ਸਵਾਲਾਂ ਲਈ ਤੁਹਾਡਾ ਵਰਚੁਅਲ ਸਹਾਇਕ. 24/7 ਉਪਲਬਧ.',
+              r: 'AI ਖੇਤੀਬਾੜੀ ਸਹਾਇਕ',
+              url: 'https://kisanemitra.gov.in/',
+            },
+          ],
+        },
+      }
+
+      function translatePage(lang) {
+        const l = data[lang] || data['en']
+        document.getElementById('l-logo').innerText = l.logo
+        document.getElementById('l-heading').innerText = l.heading
+        const cont = document.getElementById('content')
+        cont.innerHTML = ''
+        l.schemes.forEach((s) => {
+          cont.innerHTML += `
+            <div class="scheme-card">
+                <div class="details">
+                    <span class="tag">${l.tag}</span>
+                    <div class="scheme-header">
+                        <h3>${s.t}</h3>
+                        <a href="${s.url}" target="_blank" class="apply-btn">${l.apply} &rarr;</a>
+                    </div>
+                    <p>${s.d}</p>
+                </div>
+                <div class="reasoning">
+                    <span class="label">${l.why}</span>
+                    <p>${s.r}</p>
+                </div>
+            </div>`
+        })
+      }
+      translatePage('en')
+    </script>
+  </body>
+</html>

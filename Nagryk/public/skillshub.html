@@ -1,0 +1,231 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SkillsHub | Professional Portal</title>
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    />
+    <style>
+      :root {
+        --accent-orange: #e67e22;
+        --accent-green: #2d5a27;
+        --bg-gradient: linear-gradient(180deg, #d3833b 0%, #2e6b45 100%);
+      }
+
+      body {
+        margin: 0;
+        font-family: 'Inter', sans-serif;
+        background: var(--bg-gradient);
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        color: #333;
+      }
+
+      /* Navigation Bar */
+      nav {
+        width: 90%;
+        max-width: 1200px;
+        padding: 25px 0;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        color: white;
+        font-weight: 800;
+        letter-spacing: 1px;
+      }
+
+      .nav-links span {
+        margin-left: 30px;
+        font-size: 0.9rem;
+        cursor: pointer;
+      }
+
+      /* Main Workspace */
+      .container {
+        background: white;
+        width: 95%;
+        max-width: 1200px;
+        min-height: 80vh;
+        border-radius: 8px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        display: flex;
+        overflow: hidden;
+        margin-bottom: 40px;
+      }
+
+      /* Job Listings Column */
+      .job-list {
+        flex: 1.2;
+        padding: 40px;
+        overflow-y: auto;
+        border-right: 1px solid #eee;
+      }
+
+      /* Map Column */
+      #map {
+        flex: 1;
+        background: #f8f9fa;
+      }
+
+      h2 {
+        font-size: 1.5rem;
+        margin-bottom: 30px;
+        font-weight: 700;
+      }
+
+      .job-card {
+        padding: 20px;
+        border: 1px solid #eee;
+        border-radius: 12px;
+        margin-bottom: 20px;
+        transition:
+          transform 0.2s,
+          box-shadow 0.2s;
+        cursor: pointer;
+      }
+
+      .job-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        border-color: var(--accent-orange);
+      }
+
+      .job-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+      }
+      .job-header h3 {
+        margin: 0;
+        font-size: 1.1rem;
+        color: #1a1a1a;
+      }
+      .budget {
+        color: #2d5a27;
+        font-weight: 700;
+      }
+
+      .description {
+        font-size: 0.9rem;
+        color: #666;
+        margin: 10px 0;
+        line-height: 1.5;
+      }
+
+      .translation {
+        background: #fff9f4;
+        padding: 8px 12px;
+        border-radius: 6px;
+        font-size: 0.85rem;
+        color: var(--accent-orange);
+        border-left: 3px solid var(--accent-orange);
+      }
+
+      .meta {
+        font-size: 0.8rem;
+        color: #999;
+        margin-top: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <nav>
+      <div>
+        <a
+          href="/"
+          style="
+            text-decoration: none;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+          "
+        >
+          <svg
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M19 12H5M12 19l-7-7 7-7" />
+          </svg>
+          Back
+        </a>
+      </div>
+      <div class="logo">SKILLSHUB</div>
+      <div class="nav-links">
+        <span>LANGUAGES ⌵</span>
+        <span>YOU</span>
+      </div>
+    </nav>
+
+    <div class="container">
+      <section class="job-list">
+        <h2>JOBS FOR YOU</h2>
+
+        <div class="job-card">
+          <div class="job-header">
+            <h3>Carpenter - Custom Bookshelves</h3>
+            <span class="budget">₹ 6000</span>
+          </div>
+          <p class="description">
+            Need a skilled carpenter to build and install floor-to-ceiling
+            bookshelves in a home office.
+          </p>
+          <div class="translation">
+            <strong>Translation (Hindi):</strong>बढ़ई - अनुकूलित बुकशेल्फ़
+          </div>
+          <div class="meta">Kanpur, UP • Posted 2h ago</div>
+        </div>
+
+        <div class="job-card">
+          <div class="job-header">
+            <h3>Painter - Housewalls Interior & Exterior</h3>
+            <span class="budget">₹ 12000</span>
+          </div>
+          <p class="description">
+            Repairing a stone patio that has shifted over time. Requires
+            leveling and new mortar.
+          </p>
+          <div class="translation">
+            <strong>Translation(Punjabi) :</strong> ਪੇਂਟਰ - ਘਰ ਦੀਆਂ ਕੰਧਾਂ ਦਾ
+            ਅੰਦਰੂਨੀ ਅਤੇ ਬਾਹਰੀ ਹਿੱਸਾ
+          </div>
+          <div class="meta">Patiala, Punjab • Posted 5h ago</div>
+        </div>
+      </section>
+
+      <div id="map"></div>
+    </div>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script>
+      // Initialize map centered on NYC
+      const map = L.map('map').setView([28.0, 78.0], 6)
+
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '© OpenStreetMap',
+      }).addTo(map)
+
+      // Add pins for the jobs
+      const job1 = L.marker([26.4499, 80.3319], { icon: redIcon })
+        .addTo(map)
+        .bindPopup('<b>Carpenter Needed</b><br>Budget: ₹ 6000')
+
+      const job2 = (patialaMarker = L.marker([30.3398, 76.3869], {
+        icon: redIcon,
+      })
+        .addTo(map)
+        .bindPopup('<b>Mason Needed</b><br>Budget: ₹ 12000'))
+    </script>
+  </body>
+</html>
