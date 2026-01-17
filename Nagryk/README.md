@@ -61,7 +61,7 @@ npm run dev
 ## 🌟 Usage
 
 1.  Open the app in your browser.
-2.  Click on the Chat Widget to open **Nagrik AI**.
+2.  Click on the Chat Widget to open **Nagrik AI Chatbot**.
 3.  Ask a question (e.g., *"How do I apply for a passport?"*).
 4.  Observe the premium animations and smart scrolling as the AI responds!
 
@@ -70,4 +70,4 @@ npm run dev
 Contributions are welcome! Please feel free to verify the backend logic in `api/py.py` or tweak the UI animations in `app/globals.css`.
 
 ---
-*Built with ❤️ for the Nagrik Hackathon 2025*
+*Built with ❤️ for the Sabka AI - AI for inclusion hackathon*
